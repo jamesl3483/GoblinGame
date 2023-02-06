@@ -3,7 +3,7 @@ from pickle import TRUE
 import random
 import Enemy_catalog
 import weapons_class
-import minigame_1
+
 
 class Player(weapons_class.Weapons):
     def __init__(self, health, damage):
@@ -75,7 +75,8 @@ def battle_phase():
          
     # def ailment_check(attacker, defender):
     #     if random.random() < attacker.ailment_chance:
-    #         defender.status_ailment ### FIX, STOPPED HERE ###
+    #         defender.status_ailment 
+    #### FIX, STOPPED HERE ###
 
     
     enemy_appearance()
@@ -120,5 +121,5 @@ if choice == 1:
     player1 = Player(100, 20)  
     battle_phase()
     
-if choice == 2:
-    minigame_1.main()
+if choice == 2: #press backspace to quit
+    import minigame_1 #fix this eventually

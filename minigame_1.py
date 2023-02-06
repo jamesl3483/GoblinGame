@@ -12,7 +12,6 @@ class ParticlePlayer:
         self.vy = 0.1
         self.angle = np.angle(self.vy/self.vx)
 
-
     def move(self):
         vx = self.vx * math.cos(self.angle)
         vy = self.vy * math.sin(self.angle)
@@ -61,60 +60,59 @@ class ParticleEnemy:
         dist_x = self.x - p1.x
         dist_y = self.y - p1.y
         
-        self.ax = 0.01 * dist_x
-        self.ay = 0.01 * dist_y
+        self.ax = 0.01 * dist_x 
+        self.ay = 0.01 * dist_y 
         
         if self.vx < 0.1 or self.vx > -0.1:
-            self.vx -= self.ax
+            self.vx -= self.ax * np.random.random_sample()
         if self.vy < 0.1 or self.vy > -0.1:
-            self.vy -= self.ay
+            self.vy -= self.ay * np.random.random_sample()
         
         
 
 # --- functions ---
+def animate(frame_number):
+    global d  # need it to remove old plot
+    global a # print('frame_number:', frame_number)
 
-######## main ########
-def main():
-    def animate(frame_number):
-        global d  # need it to remove old plot
-        # print('frame_number:', frame_number)
+    # move all particles
+    player.move()
+    for particle in enemies:
+        particle.acceleration(player)
+        particle.move()
 
-        # move all particles
-        player.move()
-        for particle in enemies:
-            particle.acceleration(player)
-            particle.move()
-
-        # remove old plot
-        #d.set_data([], [])
-        d.remove()
-        a.remove()
+    # remove old plot
+    #d.set_data([], [])
+    d.remove()
+    a.remove()
 
 
-        # create new plot
-        d,  = plt.plot(player.x, player.y, 'bo')
-        a,  = plt.plot([particle.x for particle in enemies], [particle.y for particle in enemies], 'go')
-        
-        # pause if collide
-        for particle in enemies:
-            error_posy = player.y + 0.1
-            error_negy = player.y - 0.1
-            error_posx = player.x + 0.1
-            error_negx = player.x - 0.1
-            if (error_negx < particle.x < error_posx) and (error_negy < particle.y < error_posy):
-                anim.pause()
-
-    population = 5
-
-    player = ParticlePlayer()
-    enemies = [ParticleEnemy() for i in range(population)]
-
-    fig = plt.gcf()
-    # draw first plot
+    # create new plot
     d,  = plt.plot(player.x, player.y, 'bo')
     a,  = plt.plot([particle.x for particle in enemies], [particle.y for particle in enemies], 'go')
-    anim = animation.FuncAnimation(fig, animate, frames=200, interval=45, repeat=False)
-    plt.show()
+    
+    # pause if collide
+    for particle in enemies:
+        error_posy = player.y + 0.1
+        error_negy = player.y - 0.1
+        error_posx = player.x + 0.1
+        error_negx = player.x - 0.1
+        if (error_negx < particle.x < error_posx) and (error_negy < particle.y < error_posy):
+            anim.pause()
+    if keyboard.is_pressed('backspace'):
+        anim.pause()
 
-if __name__ == '__main__':
-    main()
+
+######## main ########
+population = 5
+player = ParticlePlayer()
+enemies = [ParticleEnemy() for i in range(population)]   
+fig = plt.gcf()
+# draw first plot
+d,  = plt.plot(player.x, player.y, 'bo')
+a,  = plt.plot([particle.x for particle in enemies], [particle.y for particle in enemies], 'go')
+anim = animation.FuncAnimation(fig, animate, frames=200, interval=45, repeat=True)
+plt.show()
+
+# if __name__ == '__main__':
+#     main()
