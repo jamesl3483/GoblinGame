@@ -71,7 +71,7 @@ def battle_phase():
             print(f"The goblin has {current_enemies[enemy_attacked].health} health left") 
         
     #     ailment_check(player1, current_enemies[enemy_attacked])  
-            
+         
     # def ailment_check(attacker, defender):
     #     if random.random() < attacker.ailment_chance:
     #         defender.status_ailment ### FIX, STOPPED HERE ###
@@ -116,3 +116,5 @@ def battle_phase():
 player1 = Player(100, 20)  
 while(player1.health>0):
     battle_phase()
+    # Add rest phase
+    # Adding a math minigame?
