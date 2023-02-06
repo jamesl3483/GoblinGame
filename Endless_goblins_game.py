@@ -3,6 +3,7 @@ from pickle import TRUE
 import random
 import Enemy_catalog
 import weapons_class
+import minigame_1
 
 class Player(weapons_class.Weapons):
     def __init__(self, health, damage):
@@ -113,8 +114,11 @@ def battle_phase():
 
 
 #main()   
-player1 = Player(100, 20)  
-while(player1.health>0):
+print('What game do you want to play?')
+choice = int(input())
+if choice == 1:
+    player1 = Player(100, 20)  
     battle_phase()
-    # Add rest phase
-    # Adding a math minigame?
+    
+if choice == 2:
+    minigame_1.main()
